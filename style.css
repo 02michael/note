@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "https://unpkg.com/open-props" layer(design.system);
+
+@layer demo {
+  .stuck-top {
+    position: sticky;
+    container-type: scroll-state;
+    top: var(--space-s);
+    z-index: 1;
+
+    > nav {
+      transition: 
+        background-color 0.3s var(--ease-3),
+        box-shadow 0.3s var(--ease-3), margin 0.3s var(--ease-spring-3),
+        border-radius 0.3s var(--ease-3);
+
+      @container scroll-state(stuck: top) {
+        background-color: oklch(from var(--color-onPrimary) l c h / 0.4);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-6);
+        border-radius: 10px;
+        margin-inline: 20px;
+      }
+    }
+  }
+}
+
+@layer demo.scrollspy {
+  body {
+    timeline-scope: --section-services, --section-journal, --section-about, --section-contact;
+  }
+  
+  @keyframes highlight {
+    25%, 50% {
+      border-block-end-color: oklch(from var(--color-primary) l c h / 0.4);
+      color: oklch(from var(--color-primary) calc(l * 1.2) c h );
+    }
+  }
+  
+  nav {
+    > a {
+      animation: highlight linear both;
+      animation-range: cover 20% exit-crossing 50%;
+      
+      border-block-end: 3px solid transparent;
+    }
+    > a:nth-child(1) { animation-timeline: --section-services }
+    > a:nth-child(2) { animation-timeline: --section-journal }
+    > a:nth-child(3) { animation-timeline: --section-about }
+    > a:nth-child(4) { animation-timeline: --section-contact }
+  }
+}
+
+@layer demo.support {
+  :root {
+    /* Override open props shadow strength */
+    --shadow-strength: 0.5%;
+    
+    --color-primary: #ddd5c3;
+    --color-onPrimary: #6f8d6a;
+    --color-emphasis: #496c45;
+
+    /* @link https://utopia.fyi/type/calculator?c=320,18,1.25,1440,28,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+    --step--2: clamp(0.72rem, 0.7046rem + 0.0769vw, 0.7738rem);
+    --step--1: clamp(0.9rem, 0.8624rem + 0.1879vw, 1.0315rem);
+    --step-0: clamp(1.125rem, 1.0536rem + 0.3571vw, 1.375rem);
+    --step-1: clamp(1.4063rem, 1.2844rem + 0.6095vw, 1.8329rem);
+    --step-2: clamp(1.7578rem, 1.562rem + 0.9792vw, 2.4432rem);
+    --step-3: clamp(2.1973rem, 1.8945rem + 1.5136vw, 3.2568rem);
+    --step-4: clamp(2.7466rem, 2.2909rem + 2.2782vw, 4.3413rem);
+    --step-5: clamp(3.4332rem, 2.7607rem + 3.3625vw, 5.787rem);
+
+    /* @link https://utopia.fyi/space/calculator?c=320,18,1.25,1440,22,1.333,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+    --space-3xs: clamp(0.3125rem, 0.2946rem + 0.0893vw, 0.375rem);
+    --space-2xs: clamp(0.5625rem, 0.5268rem + 0.1786vw, 0.6875rem);
+    --space-xs: clamp(0.875rem, 0.8214rem + 0.2679vw, 1.0625rem);
+    --space-s: clamp(1.125rem, 1.0536rem + 0.3571vw, 1.375rem);
+    --space-m: clamp(1.6875rem, 1.5804rem + 0.5357vw, 2.0625rem);
+    --space-l: clamp(2.25rem, 2.1071rem + 0.7143vw, 2.75rem);
+    --space-xl: clamp(3.375rem, 3.1607rem + 1.0714vw, 4.125rem);
+    --space-2xl: clamp(4.5rem, 4.2143rem + 1.4286vw, 5.5rem);
+    --space-3xl: clamp(6.75rem, 6.3214rem + 2.1429vw, 8.25rem);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+  html {
+    block-size: 100%;
+    color: var(--color-primary);
+    background: var(--color-emphasis);
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    min-block-size: 100%;
+    font-family: "Inter", sans-serif;
+  }
+  
+  section {
+    border-block-end: 2px solid var(--color-onPrimary);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 200ms ease-in-out;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  
+  header {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    display: grid;
+    gap: var(--space-3xs);
+    block-size: 95svh;
+    
+    > h1 {
+      font-size: var(--step-4);
+      text-transform: uppercase;
+      letter-spacing: var(--font-letterspacing-5);
+    }
+    
+    > p {
+      font-size: var(--step-2);
+      
+      > a {
+        color: oklch(from var(--color-primary) calc(l * 1.2) c h );
+        border-block-end: 3px solid oklch(from var(--color-primary) l c h / 0.4);
+      }
+    }
+  }
+  
+  .stuck-top {
+    z-index: 1;
+  }
+
+  nav {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    place-items: center;
+    justify-content: space-between;
+    gap: var(--space-l);
+    padding: var(--space-l) var(--space-2xl);
+    
+    > a {
+      font-size: var(--step-2);
+      display: block;
+      transition: all 0.2s ease-in-out;
+      
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+
+}
